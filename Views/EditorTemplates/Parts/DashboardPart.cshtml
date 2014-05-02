@@ -1,0 +1,18 @@
+﻿@model Hazza.Dashboard.Models.DashboardPart
+
+<fieldset>
+    <div>
+        @Html.LabelFor(m => m.Title, T("Title"))
+        @Html.TextBoxFor(m => m.Title)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.DashboardZone, T("Zone"))
+        @Html.TextBoxFor(m => m.DashboardZone)
+    </div>
+
+    <div>
+        @Html.LabelFor(m => m.Position, T("Position"))
+        @Html.TextBoxFor(m => m.Position)
+    </div>
+</fieldset>

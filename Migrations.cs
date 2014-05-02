@@ -17,9 +17,13 @@ namespace Hazza.Dashboard
             return 1;
         }
 
-        //public int UpdateFrom1()
-        //{
-        //    return 2;
-        //}
+        public int UpdateFrom1()
+        {
+            ContentDefinitionManager.AlterPartDefinition("DashboardShapePart", part => part
+                .Attachable()
+                .WithDescription("Lets the user select a shape to render"));
+
+            return 2;
+        }
     }
 }

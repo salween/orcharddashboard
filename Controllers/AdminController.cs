@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Hazza.Dashboard.Models;
 using Hazza.Dashboard.Services;
 using Orchard;
@@ -32,8 +33,16 @@ namespace Hazza.Dashboard.Controllers
 
         public ActionResult Index()
         {
-
+            var widgets = dashboardService.GetDashboardItems().List();
             var shape = dashboardService.DashboardShape("Vag");
+
+            foreach (var widget in widgets) {
+                var dashboardPart = widget.As<DashboardPart>();
+                var item = services.ContentManager.BuildDisplay(widget);
+                shape.Zones[dashboardPart.DashboardZone].Add(item);
+            }
+
+
             return new ShapeResult(this, shape);
         }
 

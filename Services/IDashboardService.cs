@@ -17,6 +17,7 @@ namespace Hazza.Dashboard.Services
         dynamic DashboardShape(string shapeType);
         dynamic DashboardShape(string shapeType, dynamic viewModel);
         IEnumerable<SelectWidgetViewModel> GetWidgets();
+        IContentQuery<ContentItem> GetDashboardItems();
     }
 
     public class DashboardService : IDashboardService
@@ -36,21 +37,12 @@ namespace Hazza.Dashboard.Services
 
         public dynamic DashboardShape(string shapeType)
         {
-            dynamic vm = new { Prop1 = "harry", Prop2 = "daniel" };
-            return DashboardShape(shapeType, vm);
+            return DashboardShape(shapeType, null);
         }
 
-        public dynamic DashboardShape(string shapeType, dynamic viewModel)
-        {
+        public dynamic DashboardShape(string shapeType, dynamic viewModel) {
             var shape = CreateItemShape(shapeType);
             shape.ViewModel = viewModel;
-            var newShape = services.New.Penis();
-            newShape.ViewModel = viewModel;
-            var newShape2 = services.New.Penis2();
-            newShape2.ViewModel = viewModel;
-
-            shape.Zones["Head"].Add(newShape);
-            shape.Zones["Content"].Add(newShape2);
 
             return shape;
         }
@@ -69,8 +61,8 @@ namespace Hazza.Dashboard.Services
                    select new SelectWidgetViewModel()
                    {
                        Name = contentTypeDefinition.Name,
-                       DisplayName = settings.Name,
-                       Decription = settings.Description
+                       DisplayName = settings.Name ?? contentTypeDefinition.DisplayName,
+                       Decription = settings.Description ?? ""
                    };
         }
 
@@ -85,5 +77,15 @@ namespace Hazza.Dashboard.Services
                 .Where(e => e.Parts.Any(y => y.PartDefinition.Name == "DashboardPart"))
                 .ToList();
         }
+
+        //var shape = CreateItemShape(shapeType);
+        //shape.ViewModel = viewModel;
+        //var newShape = services.New.Penis();
+        //newShape.ViewModel = viewModel;
+        //var newShape2 = services.New.Penis2();
+        //newShape2.ViewModel = viewModel;
+
+        //shape.Zones["Head"].Add(newShape);
+        //shape.Zones["Content"].Add(newShape2);
     }
 }

@@ -24,6 +24,10 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,20 +72,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Web.config" />
     <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
     <Content Include="Properties\AssemblyInfo.cs" />
     <Content Include="Module.txt" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\DefinitionTemplates\DashboardPartSettings.cshtml" />
     <Content Include="Views\Admin\SelectWidget.cshtml" />
     <Content Include="Views\Admin\AddWidget.cshtml" />
@@ -99,7 +94,10 @@
   <ItemGroup>
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Drivers\DashboardPartDriver.cs" />
+    <Compile Include="Drivers\DashboardShapePartDriver.cs" />
+    <Compile Include="Handlers\DashboardShapePartHandler.cs" />
     <Compile Include="Handlers\DashboardPartHandler.cs" />
+    <Compile Include="Models\DashboardShapePart.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="ViewModels\SelectWidgetViewModel.cs" />
     <Compile Include="DashboardFactory.cs" />
@@ -117,13 +115,24 @@
     <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Penis.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Views\Vag.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Penis2.cshtml" />
+    <Content Include="Views\EditorTemplates\Parts\DashboardShapePart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Parts\DashboardShapePart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Placement.info">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts\DashboardPart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Parts\DashboardPart.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
