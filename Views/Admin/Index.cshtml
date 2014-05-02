@@ -1,0 +1,17 @@
+﻿@{
+    Script.Require("jQuery");
+}
+           
+<div>
+    @Display(Model.Head)
+</div>
+
+
+@using (Script.Foot())
+{
+    <script type="text/javascript">
+        $(function () {
+
+        });
+    </script>
+}

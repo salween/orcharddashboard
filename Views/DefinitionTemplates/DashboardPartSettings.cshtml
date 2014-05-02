@@ -1,0 +1,12 @@
+﻿@model Hazza.Dashboard.Settings.DashboardPartSettings
+
+<fieldset>
+    <div>
+        @Html.LabelFor(m => m.Name, T("Name"))
+        @Html.EditorFor(e => e.Name)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Description, T("Description"))
+        @Html.EditorFor(e => e.Description)
+    </div>
+</fieldset>

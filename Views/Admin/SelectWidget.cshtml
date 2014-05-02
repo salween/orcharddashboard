@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Hazza.Dashboard.ViewModels.SelectWidgetViewModel>
+
+
+<ul>
+    @foreach (var viewModel in Model)
+    {
+        <li>
+            <a href="@Url.Action("AddWidget", "Admin", new { area = "Hazza.Dashboard", type = viewModel.Name })">@viewModel.DisplayName</a>
+            <p class="hint">@viewModel.Decription</p>
+        </li>
+    }
+</ul>         
