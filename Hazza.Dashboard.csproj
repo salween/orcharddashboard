@@ -71,7 +71,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="Styles\dashboard.css" />
     <Content Include="Web.config" />
     <Content Include="Scripts\Web.config" />
     <Content Include="Styles\Web.config" />
@@ -115,7 +115,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Vag.cshtml" />
+    <Content Include="Views\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\EditorTemplates\Parts\DashboardShapePart.cshtml" />
@@ -133,6 +133,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Parts\DashboardPart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\WidgetEditor.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\WidgetEditorWrapper.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

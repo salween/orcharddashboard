@@ -5,7 +5,7 @@
     @foreach (var viewModel in Model)
     {
         <li>
-            <a href="@Url.Action("AddWidget", "Admin", new { area = "Hazza.Dashboard", type = viewModel.Name })">@viewModel.DisplayName</a>
+            <a href="@Url.Action("AddWidget", "Admin", new { area = "Hazza.Dashboard", type = viewModel.Name, zone = Request.QueryString["zone"] ?? "Content"})">@viewModel.DisplayName</a>
             <p class="hint">@viewModel.Decription</p>
         </li>
     }

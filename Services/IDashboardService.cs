@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Hazza.Dashboard.Models;
 using Hazza.Dashboard.Settings;
 using Hazza.Dashboard.ViewModels;
 using Orchard;
@@ -8,16 +9,17 @@ using Orchard.ContentManagement.MetaData;
 using Orchard.ContentManagement.MetaData.Models;
 using Orchard.Data.Migration.Schema;
 using Orchard.DisplayManagement;
+using Orchard.UI;
 using Orchard.UI.Zones;
 
 namespace Hazza.Dashboard.Services
 {
-    public interface IDashboardService : IDependency
-    {
-        dynamic DashboardShape(string shapeType);
-        dynamic DashboardShape(string shapeType, dynamic viewModel);
+    public interface IDashboardService : IDependency {
+        dynamic DashboardShape(string shapeType, bool editor);
+        dynamic DashboardShape(string shapeType, bool editor, dynamic viewModel);
         IEnumerable<SelectWidgetViewModel> GetWidgets();
         IContentQuery<ContentItem> GetDashboardItems();
+        DashboardPart CreateWidget(string type);
     }
 
     public class DashboardService : IDashboardService
@@ -35,21 +37,22 @@ namespace Hazza.Dashboard.Services
             this.contentManager = contentManager;
         }
 
-        public dynamic DashboardShape(string shapeType)
+        public dynamic DashboardShape(string shapeType, bool editor)
         {
-            return DashboardShape(shapeType, null);
+            return DashboardShape(shapeType, editor, null);
         }
 
-        public dynamic DashboardShape(string shapeType, dynamic viewModel) {
-            var shape = CreateItemShape(shapeType);
+        public dynamic DashboardShape(string shapeType, bool editor, dynamic viewModel) {
+            var shape = CreateItemShape(shapeType, editor);
             shape.ViewModel = viewModel;
 
             return shape;
         }
 
-        private dynamic CreateItemShape(string shapeType)
-        {
-            return shapeFactory.Create(shapeType, Arguments.Empty(), () => new ZoneHolding(() => shapeFactory.Create("DashboardZone", Arguments.Empty())));
+        private dynamic CreateItemShape(string shapeType, bool editor) {
+            string zone = editor ? "DashboardEditorZone" : "DashboardZone";
+
+            return shapeFactory.Create(shapeType, Arguments.Empty(), () => new ZoneHolding(() => shapeFactory.Create(zone, Arguments.Empty())));
         }
 
         public IEnumerable<SelectWidgetViewModel> GetWidgets()
@@ -77,6 +80,11 @@ namespace Hazza.Dashboard.Services
                 .Where(e => e.Parts.Any(y => y.PartDefinition.Name == "DashboardPart"))
                 .ToList();
         }
+
+        public DashboardPart CreateWidget(string type) {
+            var dashboardPart = contentManager.Create<DashboardPart>(type);
+            return dashboardPart;
+        } 
 
         //var shape = CreateItemShape(shapeType);
         //shape.ViewModel = viewModel;

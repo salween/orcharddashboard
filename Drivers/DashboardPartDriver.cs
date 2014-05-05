@@ -17,7 +17,7 @@ namespace Hazza.Dashboard.Drivers
         protected override DriverResult Display(DashboardPart part, string displayType, dynamic shapeHelper)
         {
             return ContentShape("Parts_DashboardPart",
-                () => shapeHelper.Parts_DashboardPart(Model: part));
+                () => shapeHelper.Parts_DashboardPart(ContentItem: part.ContentItem));
         }
 
         protected override DriverResult Editor(DashboardPart part, dynamic shapeHelper)
