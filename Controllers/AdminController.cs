@@ -4,6 +4,7 @@ using System.Web.UI.WebControls.WebParts;
 using Hazza.Dashboard.Models;
 using Hazza.Dashboard.Services;
 using Orchard;
+using Orchard.DisplayManagement;
 using Orchard.Localization;
 using Orchard.Logging;
 using Orchard.Mvc;
@@ -19,11 +20,13 @@ namespace Hazza.Dashboard.Controllers
     {
         private readonly IDashboardService dashboardService;
         private readonly IOrchardServices services;
+        private readonly IShapeFactory shapeFactory;
 
-        public AdminController(IDashboardService dashboardService, IOrchardServices services)
+        public AdminController(IDashboardService dashboardService, IOrchardServices services, IShapeFactory shapeFactory)
         {
             this.dashboardService = dashboardService;
             this.services = services;
+            this.shapeFactory = shapeFactory;
 
             T = NullLocalizer.Instance;
             Logger = NullLogger.Instance;

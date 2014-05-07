@@ -2,12 +2,20 @@
 using Orchard.ContentManagement;
 using Orchard.ContentManagement.Drivers;
 using Orchard.ContentManagement.Handlers;
+using Orchard.DisplayManagement;
 
 
 namespace Hazza.Dashboard.Drivers
 {
     public class DashboardShapePartDriver : ContentPartDriver<DashboardShapePart>
     {
+        private readonly IShapeDisplay shapeDisplay;
+        private readonly IShapeFactory shapeFactory;
+        public DashboardShapePartDriver(IShapeDisplay shapeDisplay, IShapeFactory shapeFactory) {
+            this.shapeDisplay = shapeDisplay;
+            this.shapeFactory = shapeFactory;
+        }
+
         protected override string Prefix
         {
             get { return "DashboardShapePart"; }
@@ -16,8 +24,12 @@ namespace Hazza.Dashboard.Drivers
         protected override DriverResult Display(DashboardShapePart part, string displayType, dynamic shapeHelper)
         {
             return ContentShape("Parts_DashboardShapePart",
-                () => shapeHelper.Parts_DashboardShapePart(
-                    Model: part));
+                () => {
+                    var shape = shapeFactory.Create(part.Shape);
+                    var html = shapeDisplay.Display(shape);
+
+                    return shapeHelper.Parts_DashboardShapePart(Html: html);
+                });
         }
 
         protected override DriverResult Editor(DashboardShapePart part, dynamic shapeHelper)
