@@ -35,8 +35,9 @@ namespace Hazza.Dashboard.Controllers
         public Localizer T { get; set; }
         public ILogger Logger { get; set; }
 
-        public ActionResult Index()
-        {
+        public ActionResult Index() {
+            var request = Request;
+
             var widgets = dashboardService.GetDashboardItems().List();
             var shape = dashboardService.DashboardShape("Dashboard", false);
 
@@ -62,6 +63,8 @@ namespace Hazza.Dashboard.Controllers
 
             return new ShapeResult(this, shape);
         }
+
+
 
         public ActionResult SelectWidget(string zone)
         {
