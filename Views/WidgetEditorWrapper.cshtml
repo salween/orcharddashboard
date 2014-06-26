@@ -1,9 +1,0 @@
-﻿@model dynamic
-
-@{
-    var m = Model;
-}
-
-@Display(Model.Metadata.ChildContent)
-
-@Html.ActionLink("Add Widget", "SelectWidget", "Admin", new { area = "Hazza.Dashboard", zone = Model.ZoneName }, null)
