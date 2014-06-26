@@ -23,7 +23,20 @@ namespace Hazza.Dashboard
                         }, new RouteValueDictionary(),
                         new RouteValueDictionary {{"area", "Hazza.Dashboard"}},
                         new MvcRouteHandler())
-                }
+                },
+                new RouteDescriptor
+                {
+                    Priority = 20,
+                    Route = new Route("Admin",
+                        new RouteValueDictionary
+                        {
+                            {"area", "Hazza.Dashboard"},
+                            {"controller", "Admin"},
+                            {"action", "Index"}
+                        }, new RouteValueDictionary(),
+                        new RouteValueDictionary {{"area", "Hazza.Dashboard"}},
+                        new MvcRouteHandler())
+                } 
             };
         }
 

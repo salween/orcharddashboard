@@ -35,13 +35,16 @@ namespace Hazza.Dashboard.Controllers
         public Localizer T { get; set; }
         public ILogger Logger { get; set; }
 
-        public ActionResult Index() {
-            var request = Request;
-
-            var widgets = dashboardService.GetDashboardItems().List();
+        public ActionResult Index()
+        {
+            var items = dashboardService.GetDashboardItems();
+            if (items == null)
+                return View("EmptyDashboard");
+            var widgets = items.List();
             var shape = dashboardService.DashboardShape("Dashboard", false);
 
-            foreach (var widget in widgets) {
+            foreach (var widget in widgets)
+            {
                 var dashboardPart = widget.As<DashboardPart>();
                 var item = services.ContentManager.BuildDisplay(widget);
                 shape.Zones[dashboardPart.DashboardZone].Add(item);
@@ -50,21 +53,31 @@ namespace Hazza.Dashboard.Controllers
             return new ShapeResult(this, shape);
         }
 
-        public ActionResult Editor() {
-            var widgets = dashboardService.GetDashboardItems().List();
-            var shape = dashboardService.DashboardShape("Dashboard", true);
+        public ActionResult Editor()
+        {
+            var items = dashboardService.GetDashboardItems();
+            var shape = dashboardService.DashboardShape("Dashboard");
 
-            foreach (var widget in widgets)
+            if (items != null)
             {
-                var dashboardPart = widget.As<DashboardPart>();
-                var item = services.New.WidgetEditor(Part: dashboardPart);
-                shape.Zones[dashboardPart.DashboardZone].Add(item);
+                var widgets = items.List();
+                foreach (var widget in widgets)
+                {
+                    var dashboardPart = widget.As<DashboardPart>();
+                    var item = services.New.WidgetEditor(Part: dashboardPart);
+                    shape.Zones[dashboardPart.DashboardZone].Add(item);
+                }
             }
-
+            AddWrapper(shape);
             return new ShapeResult(this, shape);
         }
 
 
+        private void AddWrapper(dynamic shape)
+        {
+            foreach (var zone in dashboardService.GetZones())
+                shape.Zones[zone].Add(services.New.AddWidget(ZoneName: zone));
+        }
 
         public ActionResult SelectWidget(string zone)
         {
@@ -80,13 +93,15 @@ namespace Hazza.Dashboard.Controllers
 
             var dashboardPart = item.As<DashboardPart>();
 
-            try {
+            try
+            {
                 dashboardPart.DashboardZone = zone;
 
                 var model = services.ContentManager.BuildEditor(dashboardPart);
                 return View(model);
             }
-            catch(Exception exception) {
+            catch (Exception exception)
+            {
                 Logger.Error(T("Creating widget failed: {0}", exception.Message).Text);
                 services.Notifier.Error(T("Creating widget failed: {0}", exception.Message));
                 return this.RedirectLocal(returnUrl, () => RedirectToAction("Editor"));
@@ -94,7 +109,8 @@ namespace Hazza.Dashboard.Controllers
         }
 
         [HttpPost, ActionName("AddWidget")]
-        public ActionResult AddWidgetPost(string type, string returnUrl) {
+        public ActionResult AddWidgetPost(string type, string returnUrl)
+        {
             DashboardPart widget = dashboardService.CreateWidget(type);
             if (widget == null)
                 return HttpNotFound();
@@ -111,7 +127,7 @@ namespace Hazza.Dashboard.Controllers
             return this.RedirectLocal(returnUrl, () => RedirectToAction("Editor"));
         }
 
-        #region IUpdateModel 
+        #region IUpdateModel
         public new bool TryUpdateModel<TModel>(TModel model, string prefix, string[] includeProperties, string[] excludeProperties) where TModel : class
         {
             return base.TryUpdateModel(model, prefix, includeProperties, excludeProperties);

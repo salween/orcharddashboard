@@ -15,11 +15,12 @@ using Orchard.UI.Zones;
 namespace Hazza.Dashboard.Services
 {
     public interface IDashboardService : IDependency {
-        dynamic DashboardShape(string shapeType, bool editor);
-        dynamic DashboardShape(string shapeType, bool editor, dynamic viewModel);
+        dynamic DashboardShape(string shapeType);
+        dynamic DashboardShape(string shapeType, dynamic viewModel);
         IEnumerable<SelectWidgetViewModel> GetWidgets();
         IContentQuery<ContentItem> GetDashboardItems();
         DashboardPart CreateWidget(string type);
+        string[] GetZones();
     }
 
     public class DashboardService : IDashboardService
@@ -28,31 +29,31 @@ namespace Hazza.Dashboard.Services
         private readonly IOrchardServices services;
         private readonly IContentDefinitionManager defManager;
         private readonly IContentManager contentManager;
+        private readonly IEnumerable<IAdminTemplate> templates;
 
-        public DashboardService(IShapeFactory shapeFactory, IOrchardServices services, IContentDefinitionManager defManager, IContentManager contentManager)
+        public DashboardService(IShapeFactory shapeFactory, IOrchardServices services, IContentDefinitionManager defManager, IContentManager contentManager, IEnumerable<IAdminTemplate> templates)
         {
             this.shapeFactory = shapeFactory;
             this.services = services;
             this.defManager = defManager;
             this.contentManager = contentManager;
+            this.templates = templates;
         }
 
-        public dynamic DashboardShape(string shapeType, bool editor)
+        public dynamic DashboardShape(string shapeType)
         {
-            return DashboardShape(shapeType, editor, null);
+            return DashboardShape(shapeType, null);
         }
 
-        public dynamic DashboardShape(string shapeType, bool editor, dynamic viewModel) {
-            var shape = CreateItemShape(shapeType, editor);
+        public dynamic DashboardShape(string shapeType, dynamic viewModel) {
+            var shape = CreateItemShape(shapeType);
             shape.ViewModel = viewModel;
 
             return shape;
         }
 
-        private dynamic CreateItemShape(string shapeType, bool editor) {
-            string zone = editor ? "DashboardEditorZone" : "DashboardZone";
-
-            return shapeFactory.Create(shapeType, Arguments.Empty(), () => new ZoneHolding(() => shapeFactory.Create(zone, Arguments.Empty())));
+        private dynamic CreateItemShape(string shapeType) {
+            return shapeFactory.Create(shapeType, Arguments.Empty(), () => new ZoneHolding(() => shapeFactory.Create("DashboardZone", Arguments.Empty())));
         }
 
         public IEnumerable<SelectWidgetViewModel> GetWidgets()
@@ -69,22 +70,28 @@ namespace Hazza.Dashboard.Services
                    };
         }
 
-        public IContentQuery<ContentItem> GetDashboardItems()
-        {
-            return contentManager.Query(VersionOptions.Published, GetDashboardTypes().Select(e => e.Name).ToArray());
+        public IContentQuery<ContentItem> GetDashboardItems() {
+            var types = GetDashboardTypes().Select(e => e.Name).ToArray();
+            if (types.Length == 0)
+                return null;
+
+            return contentManager.Query(VersionOptions.Published, types);
         }
 
         private IEnumerable<ContentTypeDefinition> GetDashboardTypes()
         {
             return defManager.ListTypeDefinitions()
-                .Where(e => e.Parts.Any(y => y.PartDefinition.Name == "DashboardPart"))
-                .ToList();
+                .Where(e => e.Parts.Any(y => y.PartDefinition.Name == "DashboardPart"));
         }
 
         public DashboardPart CreateWidget(string type) {
             var dashboardPart = contentManager.Create<DashboardPart>(type);
             return dashboardPart;
-        } 
+        }
+
+        public string[] GetZones() {
+            return templates.FirstOrDefault(e => e.LayoutName == services.WorkContext.CurrentSite.As<DashboardSiteSettingsPart>().DashboardTemplate).Zones;
+        }
 
         //var shape = CreateItemShape(shapeType);
         //shape.ViewModel = viewModel;

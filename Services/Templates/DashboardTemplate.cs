@@ -6,25 +6,15 @@ namespace Hazza.Dashboard.Services.Templates
     {
         public string LayoutName
         {
-            get { return "Dashboard"; }
+            get { return "Default"; }
         }
 
-        public List<string> Zones
+        public string[] Zones
         {
             get
             {
-                return new List<string>() {
+                return new[] {
                     "Head", "Column1", "Column2", "Column3"
-                };
-            }
-        }
-    }
-
-    public class DashboardPage : IAdminPage {
-        public List<KeyValuePair<string, string>> Actions {
-            get {
-                return new List<KeyValuePair<string, string>>() {
-                    new KeyValuePair<string, string>("Dashboard", "Dashboard")
                 };
             }
         }

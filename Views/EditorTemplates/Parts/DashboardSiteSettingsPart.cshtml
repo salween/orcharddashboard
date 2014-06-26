@@ -1,0 +1,9 @@
+﻿@model Hazza.Dashboard.Models.DashboardSiteSettingsPart
+
+<fieldset>
+    <legend>Dashboard Settings</legend>
+    <div>
+        @Html.LabelFor(c => c.DashboardTemplate, T("Dashboard Template"))
+        @Html.EditorFor(c => c.DashboardTemplate)
+    </div>
+</fieldset>

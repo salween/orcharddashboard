@@ -97,21 +97,21 @@
     <Compile Include="Drivers\DashboardShapePartDriver.cs" />
     <Compile Include="Handlers\DashboardShapePartHandler.cs" />
     <Compile Include="Handlers\DashboardPartHandler.cs" />
+    <Compile Include="Handlers\DashboardSiteSettingsPartHander.cs" />
     <Compile Include="Models\DashboardShapePart.cs" />
+    <Compile Include="Models\DashboardSiteSettingsPart.cs" />
     <Compile Include="Routes.cs" />
     <Compile Include="Services\IAdminTemplate.cs" />
     <Compile Include="Services\Templates\DashboardTemplate.cs" />
     <Compile Include="ViewModels\SelectWidgetViewModel.cs" />
     <Compile Include="DashboardFactory.cs" />
     <Compile Include="Migrations.cs" />
-    <Compile Include="Models\DashboardItem.cs" />
     <Compile Include="Models\DashboardPart.cs" />
     <Compile Include="Services\IDashboardService.cs" />
     <Compile Include="Settings\DashboardPartEditorEvents.cs" />
     <Compile Include="Settings\DashboardPartSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\Pages\" />
     <Folder Include="Shape\" />
   </ItemGroup>
   <ItemGroup>
@@ -141,13 +141,19 @@
     <Content Include="Views\WidgetEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\WidgetEditorWrapper.cshtml" />
+    <Content Include="Views\AddWidget.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Blahg.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Admin\EmptyDashboard.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\EditorTemplates\Parts\DashboardSiteSettingsPart.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

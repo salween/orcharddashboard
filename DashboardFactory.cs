@@ -26,14 +26,6 @@ namespace Hazza.Dashboard
                 Output.Write(Display(item));
         }
 
-        [Shape]
-        public void DashboardEditorZone(dynamic Display, dynamic Shape, TextWriter Output)
-        {
-            Shape.Metadata.Wrappers.Add("WidgetEditorWrapper");
-            foreach (var item in Shape)
-                Output.Write(Display(item));
-        }
-
         public static IEnumerable<dynamic> Order(dynamic shape)
         {
             IEnumerable<dynamic> unordered = shape;
