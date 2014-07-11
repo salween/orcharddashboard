@@ -1,18 +1,26 @@
 ﻿@model dynamic
 
 @{
-    Style.Include("dashboard").AtHead();
+    //Style.Include("dashboard").AtHead();
+    Style.Include("bootstrap.min.css").AtHead();
+
+    Func<dynamic, dynamic> ZoneCheck = x => x != null ? Display(x) : "";
 }
 
 <div class="dashboard">
-    @Display(Model.Head)
-    <div class="dashboardCol">
-        @Display(Model.Column1)
+    <div class="row">
+        @Display(Model.Head)
     </div>
-    <div class="dashboardCol">
-        @Display(Model.Column2)
-    </div>
-    <div class="dashboardCol">
-        @Display(Model.Column3)
+    <div class="row">
+        @if (Model.Column1 != null) {
+            <div></div>
+        }
+
+        <div class="dashboardCol">
+            @ZoneCheck(Model.Column2)
+        </div>
+        <div class="dashboardCol">
+            @Display(Model.Column3)
+        </div>
     </div>
 </div>
