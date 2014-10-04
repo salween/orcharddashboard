@@ -25,5 +25,11 @@ namespace Hazza.Dashboard
 
             return 2;
         }
+
+        //public int UpdateFrom2() {
+        //    ContentDefinitionManager.AlterTypeDefinition("Dashboard");
+
+        //    return 3;
+        //}
     }
 }

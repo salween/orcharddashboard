@@ -58,6 +58,7 @@ namespace Hazza.Dashboard.Controllers
             var items = dashboardService.GetDashboardItems();
             var shape = dashboardService.DashboardShape("Dashboard");
 
+            AddHeader(shape);
             if (items != null)
             {
                 var widgets = items.List();
@@ -72,6 +73,10 @@ namespace Hazza.Dashboard.Controllers
             return new ShapeResult(this, shape);
         }
 
+        private void AddHeader(dynamic shape) {
+            foreach (var zone in dashboardService.GetZones())
+                shape.Zones[zone].Add(services.New.DashboardTitle(ZoneName: zone));
+        }
 
         private void AddWrapper(dynamic shape)
         {
